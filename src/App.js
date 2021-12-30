@@ -1,32 +1,19 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { getData } from "./helpers/getData";
 import { Route, Routes } from "react-router-dom";
-import Cards from "./Components/Cards/Cards";
+import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
 import Loader from "./Components/UI/Loader/Loader";
 import "./App.css";
 
-const dataQL = gql`
-  query GetData {
+const categories = gql`
+  query GetCategories {
     categories {
       name
-      products {
-        name
-        prices {
-          currency
-          amount
-        }
-        gallery
-      }
     }
   }
 `;
-
-const getData = (Component) => (props) => {
-  const { data, loading, error } = useQuery(dataQL);
-
-  return <Component {...props} data={data} loading={loading} error={error} />;
-};
 
 class App extends React.Component {
   render() {
@@ -49,8 +36,8 @@ class App extends React.Component {
                 />
               }
             >
-              <Route path="" element={<h1>All</h1>} />
-              <Route path="/:categoryName" element={<Cards />} />
+              <Route path="" element={<ProductList />} />
+              <Route path="/:categoryName" element={<ProductList />} />
             </Route>
           </Routes>
         </div>
@@ -59,4 +46,4 @@ class App extends React.Component {
   }
 }
 
-export default getData(App);
+export default getData(App, categories);
