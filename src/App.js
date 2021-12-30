@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import { Route, Routes } from "react-router-dom";
 import Cards from "./Components/Cards/Cards";
 import Layout from "./Components/Layout/Layout";
+import Loader from "./Components/UI/Loader/Loader";
 import "./App.css";
 
 const dataQL = gql`
@@ -29,9 +30,9 @@ const getData = (Component) => (props) => {
 
 class App extends React.Component {
   render() {
-    if (this.props.loading) return <h1>Loading...</h1>;
+    if (this.props.loading) return <Loader />;
 
-    if (this.props.error) return <pre>{this.props.error.message}</pre>;
+    if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
 
     if (this.props.data) {
       console.log(this.props.data);

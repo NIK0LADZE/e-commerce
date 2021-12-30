@@ -1,0 +1,47 @@
+.loader {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.ball {
+  width: 18px;
+  height: 18px;
+  margin: 15px 5px 0;
+  background-color: #5ece7b;
+  border-radius: 50%;
+}
+
+.ball:first-child {
+  animation-name: jump;
+  animation-iteration-count: infinite;
+  animation-duration: 0.7s;
+  animation-delay: 0ms;
+}
+
+.ball:nth-child(2) {
+  animation-name: jump;
+  animation-iteration-count: infinite;
+  animation-duration: 0.7s;
+  animation-delay: 0.2s;
+}
+
+.ball:last-child {
+  animation-name: jump;
+  animation-iteration-count: infinite;
+  animation-duration: 0.7s;
+  animation-delay: 0.45s;
+}
+
+@keyframes jump {
+  0% {
+    margin-top: 15px;
+  }
+  50% {
+    margin-top: 0;
+  }
+  100% {
+    margin-top: 15px;
+  }
+}
