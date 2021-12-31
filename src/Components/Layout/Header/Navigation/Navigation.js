@@ -22,48 +22,40 @@ class Navigation extends React.Component {
   }
 
   render() {
-    if (this.props.loading) return null;
-
-    if (this.props.error) return <pre>{this.props.error.message}</pre>;
-
-    if (this.props.categories) {
-      return (
-        <nav>
-          <ul className={classes.navlist}>
-            <li key={"all"} className={classes.navitem}>
-              <NavLink
-                to="/"
-                className={(navData) =>
-                  `${classes.navlink} ${this.state.active && navData.isActive && classes.active}`
-                }
-                onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}
-              >
-                all
-              </NavLink>
-            </li>
-            {this.props.categories.map((category) => {
-              return (
-                <li key={category} className={classes.navitem}>
-                  <NavLink
-                    to={`/${category}`}
-                    className={(navData) =>
-                      `${classes.navlink} ${
-                        this.state.active && navData.isActive && classes.active
-                      }`
-                    }
-                    onMouseEnter={this.mouseEnterHandler}
-                    onMouseLeave={this.mouseLeaveHandler}
-                  >
-                    {category}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      );
-    }
+    return (
+      <nav>
+        <ul className={classes.navlist}>
+          <li key={"all"} className={classes.navitem}>
+            <NavLink
+              to="/"
+              className={(navData) =>
+                `${classes.navlink} ${this.state.active && navData.isActive && classes.active}`
+              }
+              onMouseEnter={this.mouseEnterHandler}
+              onMouseLeave={this.mouseLeaveHandler}
+            >
+              all
+            </NavLink>
+          </li>
+          {this.props.categories.map((category) => {
+            return (
+              <li key={category} className={classes.navitem}>
+                <NavLink
+                  to={`/${category}`}
+                  className={(navData) =>
+                    `${classes.navlink} ${this.state.active && navData.isActive && classes.active}`
+                  }
+                  onMouseEnter={this.mouseEnterHandler}
+                  onMouseLeave={this.mouseLeaveHandler}
+                >
+                  {category}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    );
   }
 }
 

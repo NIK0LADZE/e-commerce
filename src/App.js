@@ -1,6 +1,6 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { getData } from "./helpers/getData";
+import { getCategories } from "./helpers/getCategories";
 import { Route, Routes } from "react-router-dom";
 import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
@@ -17,12 +17,14 @@ const categories = gql`
 
 class App extends React.Component {
   render() {
+    // I pass categories through here, because if categories fetching is in process,
+    // it would be logical to put whole application on hold and render Loader component until it finishes.
+    // Rendering Loader component only at Navigation would be ugly, in my opinion.
     if (this.props.loading) return <Loader />;
 
     if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
 
     if (this.props.data) {
-      console.log(this.props.data);
       return (
         <div className="container">
           <Routes>
@@ -46,4 +48,4 @@ class App extends React.Component {
   }
 }
 
-export default getData(App, categories);
+export default getCategories(App, categories);
