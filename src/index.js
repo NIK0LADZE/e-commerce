@@ -7,10 +7,12 @@ import { client } from "./ApolloClient/client";
 import App from "./App";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById("root")
 );
