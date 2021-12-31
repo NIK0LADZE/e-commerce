@@ -25,18 +25,6 @@ class Navigation extends React.Component {
     return (
       <nav>
         <ul className={classes.navlist}>
-          <li key={"all"} className={classes.navitem}>
-            <NavLink
-              to="/"
-              className={(navData) =>
-                `${classes.navlink} ${this.state.active && navData.isActive && classes.active}`
-              }
-              onMouseEnter={this.mouseEnterHandler}
-              onMouseLeave={this.mouseLeaveHandler}
-            >
-              all
-            </NavLink>
-          </li>
           {this.props.categories.map((category) => {
             return (
               <li key={category} className={classes.navitem}>

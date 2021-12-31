@@ -1,7 +1,7 @@
 import React from "react";
 import { gql } from "@apollo/client";
 import { getCategories } from "./helpers/getCategories";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
 import Loader from "./Components/UI/Loader/Loader";
@@ -38,7 +38,8 @@ class App extends React.Component {
                 />
               }
             >
-              <Route path="" element={<ProductList />} />
+              <Route path="/" element={<ProductList />} />
+              <Route path="/all" element={<Navigate to="/" state={"all"} />} />
               <Route path="/:categoryName" element={<ProductList />} />
             </Route>
           </Routes>

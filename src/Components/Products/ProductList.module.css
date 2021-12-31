@@ -5,3 +5,18 @@
 .catName {
   text-transform: capitalize;
 }
+
+.content {
+  margin-top: 103px;
+  display: grid;
+  background-color: red;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 103px 40px;
+}
+
+.productCard {
+  height: 444px;
+  padding-top: 16px;
+  background-color: greenyellow;
+}

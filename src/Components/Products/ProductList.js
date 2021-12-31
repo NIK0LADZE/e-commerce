@@ -5,24 +5,14 @@ import { getProducts } from "../../helpers/getProducts";
 import Loader from "../UI/Loader/Loader";
 import classes from "./ProductList.module.css";
 
-const productsByCategory = gql`
+const products = gql`
   query GetProductsByCategory($categoryName: String!) {
     category(input: { title: $categoryName }) {
-      name
       products {
         id
         name
-      }
-    }
-  }
-`;
-
-const allProducts = gql`
-  query GetAllProducts {
-    categories {
-      products {
-        id
-        name
+        gallery
+        inStock
       }
     }
   }
@@ -44,21 +34,18 @@ class ProductList extends React.Component {
 
     if (this.props.data) {
       let categoryName = this.props.params.categoryName ? this.props.params.categoryName : "all";
-      let data = this.props.data;
+      let products = this.props.data.category.products;
       return (
         <div className={classes.container}>
           <h1 className={classes.catName}>{categoryName}</h1>
-          <ul>
-            {categoryName !== "all" &&
-              data.category.products.map((product) => {
-                return <li key={product.id}>{product.name}</li>;
-              })}
-            {categoryName === "all" &&
-              data.categories.map((category) => {
-                return category.products.map((product) => {
-                  return <li key={product.id}>{product.name}</li>;
-                });
-              })}
+          <ul className={classes.content}>
+            {products.map((product) => {
+              return (
+                <li className={classes.productCard} key={product.id}>
+                  {product.name}
+                </li>
+              );
+            })}
           </ul>
         </div>
       );
@@ -66,4 +53,4 @@ class ProductList extends React.Component {
   }
 }
 
-export default withRouter(getProducts(ProductList, allProducts, productsByCategory));
+export default withRouter(getProducts(ProductList, products));
