@@ -6,10 +6,7 @@ class ProductItem extends React.Component {
   render() {
     let product = this.props.product;
     return (
-      <li
-        className={`${classes.productCard} ${product.inStock ? classes.inStock : ""}`}
-        key={product.id}
-      >
+      <li className={`${classes.productCard} ${product.inStock ? classes.inStock : ""}`}>
         <div className={classes.photoContainer}>
           <img className={classes.productImage} src={product.gallery[0]} alt={product.name} />
           <div className={classes.cartButton}>
