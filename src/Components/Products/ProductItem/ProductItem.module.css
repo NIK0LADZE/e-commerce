@@ -1,0 +1,83 @@
+.productCard {
+  padding: 16px;
+  height: 444px;
+  transition: 0.3s;
+}
+
+.productCard.inStock {
+  cursor: pointer;
+}
+
+.productCard.inStock:hover {
+  box-shadow: 0px 4px 15px rgba(168, 172, 176, 0.45);
+  /* This one below is from design, but it looks a bit ugly,
+  so I modified it a little, you can use either of them */
+  /* box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19); */
+}
+
+.photoContainer {
+  position: relative;
+  width: 100%;
+  height: 330px;
+}
+
+.productImage {
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+}
+
+.cartButton {
+  position: absolute;
+  top: 100%;
+  right: 15px;
+  transform: translateY(-40%);
+  width: 52px;
+  height: 52px;
+  background-color: #5ece7b;
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.cartButton .cartIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.productCard.inStock:hover .cartButton {
+  transform: translateY(-50%);
+  opacity: 1;
+}
+
+.outOfStock {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0.5;
+}
+
+.outText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-size: 24px;
+  color: #8d8f9a;
+}
+
+.productName {
+  margin-top: 24px;
+  font-size: 18px;
+}
+
+.price {
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}

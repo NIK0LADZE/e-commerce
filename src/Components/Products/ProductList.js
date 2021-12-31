@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 import { withRouter } from "../../helpers/withRouter";
 import { getProducts } from "../../helpers/getProducts";
 import Loader from "../UI/Loader/Loader";
+import ProductItem from "./ProductItem/ProductItem";
 import classes from "./ProductList.module.css";
 
 const products = gql`
@@ -11,6 +12,13 @@ const products = gql`
       products {
         id
         name
+        prices {
+          currency {
+            label
+            symbol
+          }
+          amount
+        }
         gallery
         inStock
       }
@@ -40,11 +48,7 @@ class ProductList extends React.Component {
           <h1 className={classes.catName}>{categoryName}</h1>
           <ul className={classes.content}>
             {products.map((product) => {
-              return (
-                <li className={classes.productCard} key={product.id}>
-                  {product.name}
-                </li>
-              );
+              return <ProductItem product={product} />;
             })}
           </ul>
         </div>

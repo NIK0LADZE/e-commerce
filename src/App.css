@@ -3,11 +3,17 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  color: #1d1f22;
 }
 
 body {
   font-family: "Raleway", sans-serif;
   overflow: overlay;
+}
+
+main {
+  margin-bottom: 150px;
 }
 
 .container {
