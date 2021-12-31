@@ -33,7 +33,7 @@ class ProductList extends React.Component {
     if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
 
     if (this.props.data) {
-      let categoryName = this.props.params.categoryName ? this.props.params.categoryName : "all";
+      let categoryName = this.props.categoryName;
       let products = this.props.data.category.products;
       return (
         <div className={classes.container}>
