@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "@apollo/client";
 import { getCategories } from "./helpers/getCategories";
 import { Route, Routes, Navigate } from "react-router-dom";
+import { withRouter } from "./helpers/withRouter";
 import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
 import Loader from "./Components/UI/Loader/Loader";
@@ -35,6 +36,7 @@ class App extends React.Component {
                   categories={this.props.data.categories.map((category) => {
                     return category.name;
                   })}
+                  activeCategory={this.props.location.state}
                 />
               }
             >
@@ -49,4 +51,4 @@ class App extends React.Component {
   }
 }
 
-export default getCategories(App, categories);
+export default withRouter(getCategories(App, categories));

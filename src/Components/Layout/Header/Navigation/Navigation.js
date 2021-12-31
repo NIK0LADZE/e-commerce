@@ -30,8 +30,11 @@ class Navigation extends React.Component {
               <li key={category} className={classes.navitem}>
                 <NavLink
                   to={`/${category}`}
-                  className={(navData) =>
-                    `${classes.navlink} ${this.state.active && navData.isActive && classes.active}`
+                  state={category}
+                  className={() =>
+                    `${classes.navlink} ${
+                      this.state.active && this.props.activeCategory === category && classes.active
+                    }`
                   }
                   onMouseEnter={this.mouseEnterHandler}
                   onMouseLeave={this.mouseLeaveHandler}

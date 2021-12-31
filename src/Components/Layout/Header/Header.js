@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className={classes.row}>
-        <Navigation categories={this.props.categories} />
+        <Navigation categories={this.props.categories} activeCategory={this.props.activeCategory} />
         <img src={Logo} className={classes.logo} alt="logo" />
         <Actions />
       </div>
