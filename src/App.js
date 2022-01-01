@@ -1,6 +1,6 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { getCategories } from "./helpers/getCategories";
+import { getData } from "./helpers/getData";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { withRouter } from "./helpers/withRouter";
 import ProductList from "./Components/Products/ProductList";
@@ -40,9 +40,15 @@ class App extends React.Component {
                 />
               }
             >
-              <Route path="/" element={<ProductList />} />
+              <Route
+                path="/"
+                element={<ProductList canRender={this.props.location.state ? true : false} />}
+              />
               <Route path="/all" element={<Navigate to="/" state={"all"} />} />
-              <Route path="/:categoryName" element={<ProductList />} />
+              <Route
+                path="/:categoryName"
+                element={<ProductList canRender={this.props.location.state ? true : false} />}
+              />
             </Route>
           </Routes>
         </div>
@@ -51,4 +57,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(getCategories(App, categories));
+export default withRouter(getData(App, categories));

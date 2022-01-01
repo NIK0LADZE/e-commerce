@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import classes from "./Navigation.module.css";
 
 class Navigation extends React.Component {
@@ -22,31 +22,42 @@ class Navigation extends React.Component {
   }
 
   render() {
-    return (
-      <nav>
-        <ul className={classes.navlist}>
-          {this.props.categories.map((category) => {
-            return (
-              <li key={category} className={classes.navitem}>
-                <NavLink
-                  to={`/${category}`}
-                  state={category}
-                  className={() =>
-                    `${classes.navlink} ${
-                      this.state.active && this.props.activeCategory === category && classes.active
-                    }`
-                  }
-                  onMouseEnter={this.mouseEnterHandler}
-                  onMouseLeave={this.mouseLeaveHandler}
-                >
-                  {category}
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    );
+    if (!this.props.activeCategory) {
+      return (
+        // When application starts location state is null, so below code redirects page
+        // and sets state only once, when the application starts
+        <Navigate to={this.props.categories[0]} state={this.props.categories[0]} replace={true} />
+      );
+    }
+
+    if (this.props.activeCategory)
+      return (
+        <nav>
+          <ul className={classes.navlist}>
+            {this.props.categories.map((category) => {
+              return (
+                <li key={category} className={classes.navitem}>
+                  <NavLink
+                    to={`/${category}`}
+                    state={category}
+                    className={() =>
+                      `${classes.navlink} ${
+                        this.state.active &&
+                        this.props.activeCategory === category &&
+                        classes.active
+                      }`
+                    }
+                    onMouseEnter={this.mouseEnterHandler}
+                    onMouseLeave={this.mouseLeaveHandler}
+                  >
+                    {category}
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      );
   }
 }
 
