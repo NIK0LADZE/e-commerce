@@ -1,3 +1,7 @@
+.container {
+  position: relative;
+}
+
 .currencySign {
   display: block;
   margin: 28px 16px;
@@ -10,4 +14,9 @@
   margin-left: 10px;
   font-size: 12px;
   vertical-align: middle;
+  transition: 0.3s;
+}
+
+.arrowUp {
+  transform: rotateZ(-180deg);
 }

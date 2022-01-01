@@ -1,0 +1,34 @@
+.container {
+  position: absolute;
+  padding: 20px;
+  top: 60px;
+  width: 114px;
+  font-size: 18px;
+  box-shadow: 0px 4px 15px rgba(168, 172, 176, 0.45);
+  /* This one below is from design, but it looks a bit ugly,
+  so I modified it a little, you can use either of them */
+  /* box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19); */
+  animation: showCurrencies 0.45s 1;
+}
+
+.currencyItem {
+  cursor: pointer;
+}
+
+.currencyItem:hover {
+  color: #5ece7b;
+}
+
+.currencyItem:not(:last-child) {
+  padding-bottom: 21px;
+}
+
+@keyframes showCurrencies {
+  0% {
+    top: 80px;
+    opacity: 0;
+  }
+  100% {
+    top: 60px;
+  }
+}

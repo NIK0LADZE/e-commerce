@@ -5,6 +5,13 @@ import Actions from "./Actions/Actions";
 import classes from "./Header.module.css";
 
 class Header extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.activeCategory !== this.props.activeCategory) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     return (
       <header className={classes.row}>
