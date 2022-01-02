@@ -61,6 +61,10 @@
   font-weight: 700;
 }
 
+.buttonContainer {
+  width: 292px;
+}
+
 .description {
   margin-top: 40px;
   font-family: "Roboto", sans-serif;

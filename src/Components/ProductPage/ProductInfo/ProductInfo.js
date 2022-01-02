@@ -55,7 +55,9 @@ class ProductInfo extends React.Component {
             <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
           </p>
         </div>
-        <Button disabled={!currentCurrency}>add to cart</Button>
+        <div className={classes.buttonContainer}>
+          <Button disabled={!currentCurrency}>add to cart</Button>
+        </div>
         <div
           className={classes.description}
           dangerouslySetInnerHTML={{ __html: this.props.product.description }}
