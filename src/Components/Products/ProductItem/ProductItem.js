@@ -6,13 +6,20 @@ import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 
 class ProductItem extends React.Component {
   static contextType = CurrencyContext;
+  state = { hover: false };
 
   render() {
     let product = this.props.product;
     return (
       <li
+        onMouseEnter={() => this.setState({ hover: true })}
+        onMouseLeave={() => this.setState({ hover: false })}
         className={`${classes.productCard} ${
-          product.inStock && !this.context.error ? classes.available : ""
+          product.inStock && !this.context.error
+            ? this.state.hover
+              ? `shadow ${classes.available}`
+              : classes.available
+            : ""
         }`}
       >
         <div className={classes.photoContainer}>

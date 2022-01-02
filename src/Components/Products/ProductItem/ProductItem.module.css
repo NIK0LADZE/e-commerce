@@ -8,13 +8,6 @@
   cursor: pointer;
 }
 
-.productCard.available:hover {
-  box-shadow: 0px 4px 15px rgba(168, 172, 176, 0.45);
-  /* This one below is from design, but it looks a bit ugly,
-  so I modified it a little, you can use either of them */
-  /* box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19); */
-}
-
 .photoContainer {
   position: relative;
   width: 100%;

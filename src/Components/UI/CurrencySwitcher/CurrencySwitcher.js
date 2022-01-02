@@ -15,14 +15,14 @@ class CurrencySwitcher extends React.Component {
 
     if (this.props.error)
       return (
-        <div className={classes.container}>
+        <div className={`${classes.container} shadow`}>
           <p className={classes.errorMessage}>{this.props.error.message}</p>
         </div>
       );
 
     if (this.props.data) {
       return (
-        <ul className={classes.container}>
+        <ul className={`${classes.container} shadow`}>
           {this.props.data.currencies.map((currency) => {
             return (
               <li
