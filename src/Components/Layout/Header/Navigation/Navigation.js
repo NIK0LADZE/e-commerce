@@ -42,9 +42,9 @@ class Navigation extends React.Component {
                     state={category}
                     className={() =>
                       `${classes.navlink} ${
-                        this.state.active &&
-                        this.props.activeCategory === category &&
-                        classes.active
+                        this.state.active && this.props.activeCategory === category
+                          ? classes.active
+                          : ""
                       }`
                     }
                     onMouseEnter={this.mouseEnterHandler}
