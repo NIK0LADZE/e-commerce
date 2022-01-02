@@ -1,4 +1,15 @@
 import React from "react";
+import { gql } from "@apollo/client";
+import { client } from "../ApolloClient/client";
+
+const currencies = gql`
+  query GetCurrenies {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
 
 const CurrencyContext = React.createContext();
 
@@ -6,9 +17,31 @@ export class CurrencyProvider extends React.Component {
   state = {
     selectedCurrency: null,
     selectedCurrencySymbol: null,
+    error: null,
   };
 
-  onSelectCurrency = (currency) => {
+  componentDidMount() {
+    client
+      .query({ query: currencies })
+      .then((result) => {
+        if (!localStorage.getItem("currency")) {
+          const currency = result.data.currencies[0];
+          this.setState({
+            selectedCurrency: currency.label,
+            selectedCurrencySymbol: currency.symbol,
+          });
+        } else {
+          const currency = this.getLocalStorage();
+          this.setState({
+            selectedCurrency: currency.label,
+            selectedCurrencySymbol: currency.symbol,
+          });
+        }
+      })
+      .catch((error) => this.setState({ error: error.message }));
+  }
+
+  setLocalStorage = (currency) => {
     localStorage.setItem(
       "currency",
       JSON.stringify({
@@ -16,6 +49,14 @@ export class CurrencyProvider extends React.Component {
         symbol: currency.symbol,
       })
     );
+  };
+
+  getLocalStorage = () => {
+    return JSON.parse(localStorage.getItem("currency"));
+  };
+
+  onSelectCurrency = (currency) => {
+    this.setLocalStorage(currency);
     this.setState({ selectedCurrency: currency.label, selectedCurrencySymbol: currency.symbol });
   };
 

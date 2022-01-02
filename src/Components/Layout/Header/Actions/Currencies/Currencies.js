@@ -5,6 +5,7 @@ import CurrencyContext from "../../../../../store/CurrencyContext";
 import CurrencySwitcher from "../../../../UI/CurrencySwitcher/CurrencySwitcher";
 import Arrow from "../../../../../assets/arrow.svg";
 import classes from "./Currencies.module.css";
+import ErrorIcon from "../../../../UI/ErrorIcon/ErrorIcon";
 
 const currencies = gql`
   query GetCurrenies {
@@ -22,32 +23,12 @@ class Currencies extends React.Component {
     super(props);
     this.state = {
       show: false,
-      symbol: null,
     };
     this.wrapper = React.createRef();
   }
 
-  // Sets state when data loads from Apollo
-  static getDerivedStateFromProps(props, prevState) {
-    if (props.data && !prevState.symbol) {
-      if (!localStorage.getItem("currency")) {
-        return { symbol: props.data.currencies[0].symbol };
-      } else {
-        return { symbol: JSON.parse(localStorage.getItem("currency")).symbol };
-      }
-    }
-    return null;
-  }
-
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutside);
-  }
-
-  componentDidUpdate() {
-    // Sets states in CurrencyContext if initially they are null
-    if (!this.context.selectedCurrency && !this.context.selectedCurrencySymbol) {
-      this.context.selectCurrency(this.props.data.currencies[0]);
-    }
   }
 
   componentWillUnmount() {
@@ -64,13 +45,6 @@ class Currencies extends React.Component {
     }
   };
 
-  onSelect = (currency) => {
-    this.setState({
-      show: false,
-      symbol: currency.symbol,
-    });
-  };
-
   clickHandler = () => {
     this.setState({
       show: !this.state.show,
@@ -80,9 +54,10 @@ class Currencies extends React.Component {
   render() {
     return (
       <div className={classes.container} ref={this.wrapper}>
-        <div onClick={this.clickHandler}>
+        <div onClick={!this.context.error && this.clickHandler}>
           <span className={classes.currencySign}>
-            {this.state.symbol}
+            {this.context.error && <ErrorIcon />}
+            {this.context.selectedCurrencySymbol}
             <img
               className={`${classes.arrow} ${this.state.show ? classes.arrowUp : ""}`}
               src={Arrow}
@@ -90,7 +65,7 @@ class Currencies extends React.Component {
             />
           </span>
         </div>
-        {this.state.show && <CurrencySwitcher {...this.props} onSelect={this.onSelect} />}
+        {this.state.show && <CurrencySwitcher {...this.props} onSelect={this.clickHandler} />}
       </div>
     );
   }

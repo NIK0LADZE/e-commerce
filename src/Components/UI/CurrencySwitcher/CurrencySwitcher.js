@@ -7,14 +7,18 @@ class CurrencySwitcher extends React.Component {
 
   onSelect(currency) {
     this.context.selectCurrency(currency);
-    this.props.onSelect(currency);
+    this.props.onSelect();
   }
 
   render() {
-    console.log(this.context);
     if (this.props.loading) return null;
 
-    if (this.props.error) return <p>{this.props.error.message}</p>;
+    if (this.props.error)
+      return (
+        <div className={classes.container}>
+          <p className={classes.errorMessage}>{this.props.error.message}</p>
+        </div>
+      );
 
     if (this.props.data) {
       return (
