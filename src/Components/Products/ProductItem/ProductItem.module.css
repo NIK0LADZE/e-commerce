@@ -4,10 +4,6 @@
   transition: 0.3s;
 }
 
-.productCard.available {
-  cursor: pointer;
-}
-
 .photoContainer {
   position: relative;
   width: 100%;
@@ -52,6 +48,10 @@
   height: 100%;
   background-color: #fff;
   opacity: 0.5;
+}
+
+.inactive {
+  color: #8d8f9a;
 }
 
 .outText {

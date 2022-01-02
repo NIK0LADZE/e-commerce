@@ -5,6 +5,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { withRouter } from "./helpers/withRouter";
 import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
+import ProductPage from "./Components/ProductPage/ProductPage";
 import Loader from "./Components/UI/Loader/Loader";
 import "./App.css";
 
@@ -48,6 +49,7 @@ class App extends React.Component {
               <Route path="/" element={<ProductList />} />
               <Route path="/all" element={<Navigate to="/" />} />
               <Route path=":categoryName" element={<ProductList />} />
+              <Route path="/products/:productId" element={<ProductPage />} />
             </Route>
           </Routes>
         </div>
