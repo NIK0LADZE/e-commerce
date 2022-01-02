@@ -13,6 +13,7 @@ const product = gql`
       id
       brand
       name
+      inStock
       gallery
       description
       attributes {
@@ -39,15 +40,31 @@ class ProductPage extends React.Component {
   render() {
     if (this.props.loading) return <Loader />;
 
-    if (this.props.error)
+    if (this.props.error) {
       return (
         <div className={classes.container}>
           <h1 className={classes.errorMessage}>{this.props.error.message}</h1>
         </div>
       );
+    }
 
     if (this.props.data) {
       const product = this.props.data.product;
+
+      if (!product)
+        return (
+          <div className={classes.container}>
+            <h1 className={classes.errorMessage}>Product not found</h1>
+          </div>
+        );
+
+      if (!product.inStock)
+        return (
+          <div className={classes.container}>
+            <h1 className={classes.errorMessage}>This product is not in stock</h1>
+          </div>
+        );
+
       return (
         <div className={classes.container}>
           <ProductGallery product={product} />
