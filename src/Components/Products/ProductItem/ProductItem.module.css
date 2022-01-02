@@ -4,11 +4,11 @@
   transition: 0.3s;
 }
 
-.productCard.inStock {
+.productCard.available {
   cursor: pointer;
 }
 
-.productCard.inStock:hover {
+.productCard.available:hover {
   box-shadow: 0px 4px 15px rgba(168, 172, 176, 0.45);
   /* This one below is from design, but it looks a bit ugly,
   so I modified it a little, you can use either of them */
@@ -47,7 +47,7 @@
   transform: translate(-50%, -50%);
 }
 
-.productCard.inStock:hover .cartButton {
+.productCard.available:hover .cartButton {
   transform: translateY(-50%);
   opacity: 1;
 }
@@ -81,4 +81,9 @@
   margin-top: 5px;
   font-size: 18px;
   font-weight: bold;
+}
+
+.errorMessage {
+  margin-left: 5px;
+  color: red;
 }
