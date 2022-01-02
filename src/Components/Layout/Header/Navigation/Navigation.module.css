@@ -3,16 +3,14 @@
   display: flex;
 }
 
-.navitem {
+.navlink {
   position: relative;
   padding: 28px 16px;
-}
-
-.navlink {
   font-weight: 600;
   color: #1d1f22;
   text-transform: uppercase;
   transition: 0.3s ease 0s, left 0.3s ease 0s;
+  cursor: pointer;
 }
 
 .navlink::after {

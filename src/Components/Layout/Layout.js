@@ -6,7 +6,7 @@ class Layout extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Header categories={this.props.categories} activeCategory={this.props.activeCategory} />
+        <Header {...this.props} />
         <main>
           <Outlet />
         </main>

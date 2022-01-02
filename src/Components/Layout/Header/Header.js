@@ -5,17 +5,10 @@ import Actions from "./Actions/Actions";
 import classes from "./Header.module.css";
 
 class Header extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.activeCategory !== this.props.activeCategory) {
-      return true;
-    }
-    return false;
-  }
-
   render() {
     return (
       <header className={classes.row}>
-        <Navigation categories={this.props.categories} activeCategory={this.props.activeCategory} />
+        <Navigation {...this.props} />
         <img src={Logo} className={classes.logo} alt="logo" />
         <Actions />
       </header>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Navigate, NavLink } from "react-router-dom";
 import classes from "./Navigation.module.css";
 
 class Navigation extends React.Component {
@@ -7,57 +6,45 @@ class Navigation extends React.Component {
     super(props);
     this.state = {
       active: true,
-      currentCategory: null,
+      currentCategory: props.currentCategory,
     };
-    this.mouseEnterHandler = this.mouseEnterHandler.bind(this);
-    this.mouseLeaveHandler = this.mouseLeaveHandler.bind(this);
   }
 
-  mouseEnterHandler() {
+  mouseEnterHandler = () => {
     this.setState({ active: false });
-  }
+  };
 
-  mouseLeaveHandler() {
+  mouseLeaveHandler = () => {
     this.setState({ active: true });
-  }
+  };
+
+  navigate = (currentCategory) => {
+    this.setState({ currentCategory });
+    this.props.navigate(`/${currentCategory}`);
+  };
 
   render() {
-    if (!this.props.activeCategory) {
-      return (
-        // When application starts location state is null, so below code redirects page
-        // and sets state only once, when the application starts
-        <Navigate to={this.props.categories[0]} state={this.props.categories[0]} replace={true} />
-      );
-    }
-
-    if (this.props.activeCategory)
-      return (
-        <nav>
-          <ul className={classes.navlist}>
-            {this.props.categories.map((category) => {
-              return (
-                <li key={category} className={classes.navitem}>
-                  <NavLink
-                    to={`/${category}`}
-                    state={category}
-                    className={() =>
-                      `${classes.navlink} ${
-                        this.state.active && this.props.activeCategory === category
-                          ? classes.active
-                          : ""
-                      }`
-                    }
-                    onMouseEnter={this.mouseEnterHandler}
-                    onMouseLeave={this.mouseLeaveHandler}
-                  >
-                    {category}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      );
+    return (
+      <nav>
+        <ul className={classes.navlist}>
+          {this.props.categories.map((category) => {
+            return (
+              <li
+                key={category}
+                className={`${classes.navlink} ${
+                  this.state.active && this.state.currentCategory === category ? classes.active : ""
+                }`}
+                onMouseEnter={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}
+                onClick={() => this.navigate(category)}
+              >
+                {category}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    );
   }
 }
 
