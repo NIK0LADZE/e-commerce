@@ -3,8 +3,9 @@ import { gql } from "@apollo/client";
 import { withRouter } from "../../helpers/withRouter";
 import { getProduct } from "../../helpers/getProduct";
 import Loader from "../UI/Loader/Loader";
-import classes from "./ProductPage.module.css";
+import ProductGallery from "./ProductGallery/ProductGallery";
 import Button from "../UI/Button/Button";
+import classes from "./ProductPage.module.css";
 
 const product = gql`
   query GetProduct($productId: String!) {
@@ -35,19 +36,6 @@ const product = gql`
 `;
 
 class ProductPage extends React.Component {
-  state = { activeImage: null, animation: false };
-
-  static getDerivedStateFromProps(props, prevState) {
-    if (props.data && !prevState.activeImage) {
-      return { activeImage: props.data.product.gallery[0] };
-    }
-    return null;
-  }
-
-  selectImage = (activeImage) => {
-    this.setState({ activeImage });
-  };
-
   render() {
     if (this.props.loading) return <Loader />;
 
@@ -60,29 +48,9 @@ class ProductPage extends React.Component {
 
     if (this.props.data) {
       const product = this.props.data.product;
-      console.log(
-        product.prices.find((priceObj) => priceObj.currency.label === "USD").currency.symbol
-      );
       return (
         <div className={classes.container}>
-          <div className={classes.galleryContainer}>
-            <ul className={classes.gallery}>
-              {product.gallery.map((imageUrl, index) => {
-                return (
-                  <li
-                    key={index}
-                    className={classes.galleryImage}
-                    onClick={() => this.selectImage(imageUrl)}
-                  >
-                    <img src={imageUrl} alt={product.name} />
-                  </li>
-                );
-              })}
-            </ul>
-            <div className={classes.bigImage}>
-              <img src={this.state.activeImage} alt={product.name} />
-            </div>
-          </div>
+          <ProductGallery product={product} />
           <div className={classes.info}>
             <h1 className={classes.brand}>{product.brand}</h1>
             <h2 className={classes.name}>{product.name}</h2>
