@@ -1,9 +1,15 @@
 import React from "react";
+import CurrencyContext from "../../../store/CurrencyContext";
 import Button from "../../UI/Button/Button";
+import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 import classes from "./ProductInfo.module.css";
 
 class ProductInfo extends React.Component {
+  static contextType = CurrencyContext;
+
   render() {
+    const currentCurrency = this.context.selectedCurrency;
+
     return (
       <div className={classes.info}>
         <h1 className={classes.brand}>{this.props.product.brand}</h1>
@@ -37,14 +43,19 @@ class ProductInfo extends React.Component {
         <div>
           <p className={classes.attributeName}>price:</p>
           <p className={classes.price}>
-            {
-              this.props.product.prices.find((priceObj) => priceObj.currency.label === "USD")
-                .currency.symbol
-            }
-            {this.props.product.prices.find((priceObj) => priceObj.currency.label === "USD").amount}
+            {currentCurrency &&
+              this.props.product.prices.find(
+                (priceObj) => priceObj.currency.label === currentCurrency
+              ).currency.symbol}
+            {currentCurrency &&
+              this.props.product.prices.find(
+                (priceObj) => priceObj.currency.label === currentCurrency
+              ).amount}
+            {!currentCurrency && <ErrorIcon />}
+            <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
           </p>
         </div>
-        <Button>add to cart</Button>
+        <Button disabled={!currentCurrency}>add to cart</Button>
         <div
           className={classes.description}
           dangerouslySetInnerHTML={{ __html: this.props.product.description }}
