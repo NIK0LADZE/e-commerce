@@ -2,7 +2,7 @@ import React from "react";
 import { gql } from "@apollo/client";
 import { getData } from "../../../../../helpers/getData";
 import CurrencyContext from "../../../../../store/CurrencyContext";
-import CurrencySwitcher from "../../../../UI/CurrencySwitcher/CurrencySwitcher";
+import CurrencySwitcher from "./CurrencySwitcher/CurrencySwitcher";
 import Arrow from "../../../../../assets/arrow.svg";
 import classes from "./Currencies.module.css";
 import ErrorIcon from "../../../../UI/ErrorIcon/ErrorIcon";

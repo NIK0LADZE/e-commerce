@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./CurrencySwitcher.module.css";
-import CurrencyContext from "../../../store/CurrencyContext";
+import CurrencyContext from "../../../../../../store/CurrencyContext";
 
 class CurrencySwitcher extends React.Component {
   static contextType = CurrencyContext;
