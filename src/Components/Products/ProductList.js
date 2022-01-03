@@ -47,7 +47,7 @@ class ProductList extends React.Component {
       let products = this.props.data.category.products;
 
       return (
-        <div className={classes.container}>
+        <div>
           <h1 className={classes.catName}>{categoryName}</h1>
           <ul className={classes.content}>
             {products.map((product) => {
