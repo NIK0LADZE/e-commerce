@@ -101,7 +101,7 @@ a {
 }
 
 .error-message {
-  margin-top: 80px;
+  margin-top: calc(80px + 77px);
   color: red;
   text-align: center;
 }

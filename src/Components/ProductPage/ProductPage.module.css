@@ -4,11 +4,6 @@
   /* else uncomment this */
   /* padding-top: 80px; */
   display: flex;
-  justify-content: center;
-}
-
-.errorMessage {
-  color: red;
 }
 
 @media screen and (max-width: 767px) {

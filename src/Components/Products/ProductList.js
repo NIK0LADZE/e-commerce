@@ -41,8 +41,11 @@ class ProductList extends React.Component {
     if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
 
     if (this.props.data) {
+      if (!this.props.data.category) return <h1 className="error-message">Category not found</h1>;
+
       let categoryName = this.props.categoryName;
       let products = this.props.data.category.products;
+
       return (
         <div className={classes.container}>
           <h1 className={classes.catName}>{categoryName}</h1>

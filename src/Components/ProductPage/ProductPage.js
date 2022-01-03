@@ -41,22 +41,13 @@ class ProductPage extends React.Component {
     if (this.props.loading) return <Loader />;
 
     if (this.props.error) {
-      return (
-        <div className={classes.container}>
-          <h1 className={classes.errorMessage}>{this.props.error.message}</h1>
-        </div>
-      );
+      return <h1 className="error-message">{this.props.error.message}</h1>;
     }
 
     if (this.props.data) {
       const product = this.props.data.product;
 
-      if (!product)
-        return (
-          <div className={classes.container}>
-            <h1 className={classes.errorMessage}>Product not found</h1>
-          </div>
-        );
+      if (!product) return <h1 className="error-message">Product not found</h1>;
 
       if (!product.inStock)
         return (
