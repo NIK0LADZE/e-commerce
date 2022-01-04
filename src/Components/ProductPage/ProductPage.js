@@ -2,6 +2,8 @@ import React from "react";
 import { gql } from "@apollo/client";
 import { withRouter } from "../../helpers/withRouter";
 import { getProduct } from "../../helpers/getProduct";
+import CurrencyContext from "../../store/CurrencyContext";
+import CartContext from "../../store/CartContext";
 import Loader from "../UI/Loader/Loader";
 import ProductGallery from "./ProductGallery/ProductGallery";
 import ProductInfo from "./ProductInfo/ProductInfo";
@@ -55,7 +57,13 @@ class ProductPage extends React.Component {
       return (
         <div className={classes.container}>
           <ProductGallery product={product} />
-          <ProductInfo product={product} />
+          <CurrencyContext.Consumer>
+            {(currency) => (
+              <CartContext.Consumer>
+                {(cart) => <ProductInfo currency={currency} cart={cart} product={product} />}
+              </CartContext.Consumer>
+            )}
+          </CurrencyContext.Consumer>
         </div>
       );
     }

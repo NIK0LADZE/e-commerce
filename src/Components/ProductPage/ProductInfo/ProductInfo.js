@@ -1,31 +1,37 @@
 import React from "react";
-import CurrencyContext from "../../../store/CurrencyContext";
 import AttributeSelector from "../../UI/AttributeSelector/AttributeSelector";
 import Button from "../../UI/Button/Button";
 import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 import classes from "./ProductInfo.module.css";
 
 class ProductInfo extends React.Component {
-  static contextType = CurrencyContext;
-
-  state = { selectedAttributes: {} };
+  state = { id: this.props.product.id, attributesId: "", selectedAttributes: {} };
 
   onSelectAttribute = (attributeName, attributeValue) => {
     const selectedAttributeObj = { [attributeName]: attributeValue };
+    const selectedAttributes = { ...this.state.selectedAttributes, ...selectedAttributeObj };
+    let attributesId = "";
+    for (const key in selectedAttributes) {
+      attributesId = attributesId + selectedAttributes[key];
+    }
     this.setState({
-      selectedAttributes: { ...this.state.selectedAttributes, ...selectedAttributeObj },
+      attributesId,
+      selectedAttributes,
     });
   };
 
+  onAddToCart = () => {
+    this.props.cart.addToCart(this.state);
+  };
+
   render() {
-    const currentCurrency = this.context.selectedCurrency;
+    const currentCurrency = this.props.currency.selectedCurrency;
     const objectKeys = Object.keys(this.state.selectedAttributes);
     // Finds selected currency amount
     const price = this.props.product.prices.find(
       (priceObj) => priceObj.currency.label === currentCurrency
     ).amount;
     const canAddToCart = this.props.product.attributes.length === objectKeys.length;
-
     return (
       <div className={classes.info}>
         <h1 className={classes.brand}>{this.props.product.brand}</h1>
@@ -57,7 +63,7 @@ class ProductInfo extends React.Component {
         <div>
           <p className={classes.attributeName}>price:</p>
           <p className={classes.price}>
-            {currentCurrency && this.context.selectedCurrencySymbol}
+            {currentCurrency && this.props.currency.selectedCurrencySymbol}
             {currentCurrency && price}
             {!currentCurrency && <ErrorIcon />}
             <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
@@ -65,7 +71,9 @@ class ProductInfo extends React.Component {
         </div>
 
         <div className={classes.buttonContainer}>
-          <Button disabled={!currentCurrency || !canAddToCart}>add to cart</Button>
+          <Button onClick={this.onAddToCart} disabled={!currentCurrency || !canAddToCart}>
+            add to cart
+          </Button>
         </div>
         {/* Product Description */}
         <div

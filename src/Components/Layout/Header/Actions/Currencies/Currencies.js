@@ -33,13 +33,9 @@ class Currencies extends React.Component {
     });
   };
 
-  clickOutsideHandler = () => {
-    this.setState({ show: false });
-  };
-
   render() {
     return (
-      <ClickOutside show={this.state.show} clickHandler={this.clickOutsideHandler}>
+      <ClickOutside show={this.state.show} clickHandler={this.clickHandler}>
         <div className={classes.container} ref={this.wrapper}>
           <div onClick={!this.context.error && this.clickHandler}>
             <span className={classes.currencySign}>

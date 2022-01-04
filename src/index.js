@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./ApolloClient/client";
 import { CurrencyProvider } from "./store/CurrencyContext";
+import { CartProvider } from "./store/CartContext";
 
 import App from "./App";
 
@@ -12,7 +13,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ApolloProvider client={client}>
         <CurrencyProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </CurrencyProvider>
       </ApolloProvider>
     </BrowserRouter>
