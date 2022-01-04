@@ -1,11 +1,12 @@
 import React from "react";
 import { gql } from "@apollo/client";
 import { getData } from "../../../../../helpers/getData";
+import { ClickOutside } from "../../../../UI/ClickOutside";
 import CurrencyContext from "../../../../../store/CurrencyContext";
 import CurrencySwitcher from "./CurrencySwitcher/CurrencySwitcher";
 import Arrow from "../../../../../assets/arrow.svg";
-import classes from "./Currencies.module.css";
 import ErrorIcon from "../../../../UI/ErrorIcon/ErrorIcon";
+import classes from "./Currencies.module.css";
 
 const currencies = gql`
   query GetCurrenies {
@@ -24,26 +25,7 @@ class Currencies extends React.Component {
     this.state = {
       show: false,
     };
-    this.wrapper = React.createRef();
   }
-
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
-  }
-
-  handleClickOutside = (event) => {
-    if (!this.wrapper.current.contains(event.target)) {
-      if (this.state.show) {
-        this.setState({
-          show: false,
-        });
-      }
-    }
-  };
 
   clickHandler = () => {
     this.setState({
@@ -51,22 +33,28 @@ class Currencies extends React.Component {
     });
   };
 
+  clickOutsideHandler = () => {
+    this.setState({ show: false });
+  };
+
   render() {
     return (
-      <div className={classes.container} ref={this.wrapper}>
-        <div onClick={!this.context.error && this.clickHandler}>
-          <span className={classes.currencySign}>
-            {this.context.error && <ErrorIcon />}
-            {this.context.selectedCurrencySymbol}
-            <img
-              className={`${classes.arrow} ${this.state.show ? classes.arrowUp : ""}`}
-              src={Arrow}
-              alt="arrow"
-            />
-          </span>
+      <ClickOutside show={this.state.show} clickHandler={this.clickOutsideHandler}>
+        <div className={classes.container} ref={this.wrapper}>
+          <div onClick={!this.context.error && this.clickHandler}>
+            <span className={classes.currencySign}>
+              {this.context.error && <ErrorIcon />}
+              {this.context.selectedCurrencySymbol}
+              <img
+                className={`${classes.arrow} ${this.state.show ? classes.arrowUp : ""}`}
+                src={Arrow}
+                alt="arrow"
+              />
+            </span>
+          </div>
+          {this.state.show && <CurrencySwitcher {...this.props} onSelect={this.clickHandler} />}
         </div>
-        {this.state.show && <CurrencySwitcher {...this.props} onSelect={this.clickHandler} />}
-      </div>
+      </ClickOutside>
     );
   }
 }
