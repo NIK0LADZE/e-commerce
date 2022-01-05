@@ -23,6 +23,19 @@
   cursor: pointer;
 }
 
+.circle.pop {
+  animation: pop 0.3s 1;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .circle > span {
   position: absolute;
   top: 50%;

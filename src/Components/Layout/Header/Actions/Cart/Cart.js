@@ -11,7 +11,26 @@ class Overlay extends React.Component {
 }
 
 class Cart extends React.Component {
-  state = { isOpened: false };
+  state = { isOpened: false, totalAmountChanged: false };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.cart.totalAmount !== this.props.cart.totalAmount) {
+      this.setState({ totalAmountChanged: true });
+
+      const timer = setTimeout(() => {
+        this.setState({ totalAmountChanged: false });
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+    if (
+      nextProps.cart.totalAmount !== this.props.cart.totalAmount &&
+      nextState.totalAmountChanged === this.state.totalAmountChanged
+    ) {
+      return false;
+    }
+    return true;
+  }
 
   onClick = () => {
     this.setState({ isOpened: !this.state.isOpened });
@@ -34,7 +53,9 @@ class Cart extends React.Component {
           <div onClick={this.onClick}>
             <img src={cartIcon} className={classes.cartIcon} alt="cart" />
             {totalAmount > 0 && (
-              <div className={classes.circle}>
+              <div
+                className={`${classes.circle} ${this.state.totalAmountChanged ? classes.pop : ""}`}
+              >
                 <span>{totalAmount}</span>
               </div>
             )}
