@@ -81,8 +81,7 @@
   position: absolute;
   padding: 5px 0;
   left: 0%;
-  top: 130%;
-  /* transform: translateX(-50%); */
+  bottom: 130%;
   width: 120px;
   background-color: #1d1f22;
   color: #fff;
