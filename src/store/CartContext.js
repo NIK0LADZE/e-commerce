@@ -3,38 +3,71 @@ import React from "react";
 const CartContext = React.createContext();
 
 export class CartProvider extends React.Component {
-  state = { totalAmount: 0, products: [] };
+  cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+
+  state = {
+    totalAmount: 0,
+    products: this.cart,
+  };
+
+  componentDidMount() {
+    const totalAmount = this.calculateTotalAmount(this.cart);
+    this.setState({ totalAmount: totalAmount });
+  }
 
   onAddToCart = (productObj) => {
-    this.setState({ totalAmount: this.state.totalAmount + 1 });
     const existingProductIndex = this.state.products.findIndex(
       (product) => product.id === productObj.id && product.attributesId === productObj.attributesId
     );
     const existingProduct = this.state.products[existingProductIndex];
+    let updatedCart;
+
     if (existingProduct) {
       existingProduct.amount++;
-      this.setState({ products: this.state.products });
+      updatedCart = this.state.products;
+      this.setState({ products: updatedCart });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } else {
-      this.setState({ products: [...this.state.products, { ...productObj, amount: 1 }] });
+      updatedCart = [...this.state.products, { ...productObj, amount: 1 }];
+      this.setState({ products: updatedCart });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
+
+    const totalAmount = this.calculateTotalAmount(updatedCart);
+    this.setState({ totalAmount: totalAmount });
   };
 
   onRemoveFromCart = (productObj) => {
-    this.setState({ totalAmount: this.state.totalAmount - 1 });
     const existingProductIndex = this.state.products.findIndex(
       (product) => product.id === productObj.id && product.attributesId === productObj.attributesId
     );
     const existingProduct = this.state.products[existingProductIndex];
+    let updatedCart;
+
     if (existingProduct.amount > 1) {
       existingProduct.amount--;
-      this.setState({ products: this.state.products });
+      updatedCart = this.state.products;
+      this.setState({ products: updatedCart });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } else {
-      const updatedCart = this.state.products.filter(
+      updatedCart = this.state.products.filter(
         (product) =>
           product.id !== productObj.id || product.attributesId !== productObj.attributesId
       );
       this.setState({ products: updatedCart });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
+
+    const totalAmount = this.calculateTotalAmount(updatedCart);
+    this.setState({ totalAmount: totalAmount });
+  };
+
+  calculateTotalAmount = (updatedCart) => {
+    let totalAmount = 0;
+    updatedCart.map((product) => {
+      totalAmount += product.amount;
+    });
+    return totalAmount;
   };
 
   render() {
