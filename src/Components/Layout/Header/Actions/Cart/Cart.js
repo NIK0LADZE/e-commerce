@@ -4,6 +4,7 @@ import { ClickOutside } from "../../../../UI/ClickOutside";
 import cartIcon from "../../../../../assets/cart.svg";
 import CartProduct from "./CartProduct/CartProduct";
 import classes from "./Cart.module.css";
+import Button from "../../../../UI/Button/Button";
 
 class Overlay extends React.Component {
   render() {
@@ -114,6 +115,10 @@ class Cart extends React.Component {
                   {this.symbol}
                   {this.state.totalPrice.toFixed(2)}
                 </p>
+              </div>
+              <div className={classes.buttons}>
+                <Button type={"default"}>view bag</Button>
+                <Button type={"green"}>check out</Button>
               </div>
             </div>
           )}

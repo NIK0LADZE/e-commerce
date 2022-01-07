@@ -7,7 +7,13 @@ class Button extends React.Component {
       <button
         onClick={this.props.onClick}
         disabled={this.props.disabled}
-        className={`${classes.button} ${classes.green}`}
+        className={`${classes.button} ${
+          this.props.type === "green"
+            ? classes.green
+            : this.props.type === "default"
+            ? classes.default
+            : ""
+        }`}
       >
         {this.props.children}
       </button>

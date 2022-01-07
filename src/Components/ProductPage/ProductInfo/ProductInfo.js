@@ -89,7 +89,11 @@ class ProductInfo extends React.Component {
         </div>
 
         <div className={classes.buttonContainer}>
-          <Button onClick={this.onAddToCart} disabled={!this.currentCurrency || !canAddToCart}>
+          <Button
+            onClick={this.onAddToCart}
+            type={"green"}
+            disabled={!this.currentCurrency || !canAddToCart}
+          >
             add to cart
           </Button>
         </div>

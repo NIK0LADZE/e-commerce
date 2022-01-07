@@ -1,13 +1,29 @@
 .button {
   width: 100%;
-  padding: 18px 0;
-  background-color: #5ece7b;
-  color: #fff;
+  height: 100%;
+  font-family: "Raleway", sans-serif;
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
-  border: none;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.default {
+  color: #1d1f22;
+  background-color: #fff;
+  border: 1px solid #1d1f22;
+}
+
+.default:hover {
+  background-color: #1d1f22;
+  color: #fff;
+}
+
+.green {
+  color: #fff;
+  background-color: #5ece7b;
+  border: none;
 }
 
 .button:disabled {

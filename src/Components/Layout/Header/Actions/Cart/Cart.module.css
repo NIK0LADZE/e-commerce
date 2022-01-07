@@ -113,3 +113,13 @@
   font-family: "Roboto", sans-serif;
   font-weight: bold;
 }
+
+.buttons {
+  display: flex;
+  margin-top: 35px;
+  height: 43px;
+}
+
+.buttons > *:first-child {
+  margin-right: 12px;
+}
