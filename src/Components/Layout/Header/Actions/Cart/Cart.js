@@ -2,6 +2,7 @@ import React from "react";
 import reactDom from "react-dom";
 import { ClickOutside } from "../../../../UI/ClickOutside";
 import cartIcon from "../../../../../assets/cart.svg";
+import CartProduct from "./CartProduct/CartProduct";
 import classes from "./Cart.module.css";
 
 class Overlay extends React.Component {
@@ -11,9 +12,30 @@ class Overlay extends React.Component {
 }
 
 class Cart extends React.Component {
-  state = { isOpened: false, totalAmountChanged: false };
+  state = { isOpened: false, totalPrice: 0, totalAmountChanged: false };
+  products = this.props.cart.products;
+  currentCurrency = this.props.currency.selectedCurrency;
+  symbol = this.props.currency.selectedCurrencySymbol;
 
   shouldComponentUpdate(nextProps, nextState) {
+    let totalPrice = 0;
+    this.products = this.props.cart.products;
+    this.currentCurrency = nextProps.currency.selectedCurrency;
+    this.symbol = this.props.currency.selectedCurrencySymbol;
+
+    const prices = this.products.map((product) => {
+      const price = product.prices.find(
+        (priceObj) => priceObj.currency.label === this.currentCurrency
+      ).amount;
+      return price * product.amount;
+    });
+
+    prices.map((price) => (totalPrice += price));
+
+    if (this.state.totalPrice !== totalPrice) {
+      this.setState({ totalPrice });
+    }
+
     if (nextProps.cart.totalAmount !== this.props.cart.totalAmount) {
       this.setState({ totalAmountChanged: true });
 
@@ -38,13 +60,28 @@ class Cart extends React.Component {
 
   render() {
     const portalTarget = document.getElementById("overlays");
-    const products = this.props.cart.products;
     const totalAmount = this.props.cart.totalAmount;
+
     if (this.state.isOpened) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
+
+    const productList = this.products.map((product) => {
+      const price = product.prices.find(
+        (priceObj) => priceObj.currency.label === this.currentCurrency
+      ).amount;
+      return (
+        <CartProduct
+          key={`${product.id}-${product.attributesId}`}
+          product={product}
+          currency={this.props.currency}
+          cart={this.props.cart}
+          price={price}
+        />
+      );
+    });
 
     return (
       <ClickOutside show={this.state.isOpened} clickHandler={this.onClick}>
@@ -70,13 +107,14 @@ class Cart extends React.Component {
               <p className={classes.myBag}>
                 My Bag, <span>{totalAmount} items</span>
               </p>
-              {products.map((product) => {
-                return (
-                  <p key={product.id + "-" + product.attributesId}>
-                    {product.id}: {product.amount}
-                  </p>
-                );
-              })}
+              <div className={classes.cartProducts}>{productList}</div>
+              <div className={classes.totalPrice}>
+                <p>Total</p>
+                <p>
+                  {this.symbol}
+                  {this.state.totalPrice.toFixed(2)}
+                </p>
+              </div>
             </div>
           )}
         </div>

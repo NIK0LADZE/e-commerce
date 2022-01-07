@@ -56,6 +56,7 @@
   position: absolute;
   padding: 8px 16px 20px;
   width: 325px;
+  max-height: 540px;
   top: 51px;
   right: -12px;
   background-color: #fff;
@@ -72,9 +73,43 @@
 }
 
 .myBag {
+  margin-bottom: 23px;
   font-weight: 700;
 }
 
 .myBag > span {
   font-weight: 500;
+}
+
+.cartProducts {
+  max-height: 315px;
+  color: rgba(182, 182, 182, 0);
+  overflow: overlay;
+  transition: 0.3s;
+}
+
+.cartProducts:hover {
+  color: rgba(182, 182, 182, 1);
+}
+
+.cartProducts::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cartProducts::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 10px;
+  transition: 0.3s;
+}
+
+.cartProducts::-webkit-scrollbar-thumb:hover {
+  box-shadow: inset 0 0 0 10px;
+}
+
+.totalPrice {
+  margin-top: 41px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
 }

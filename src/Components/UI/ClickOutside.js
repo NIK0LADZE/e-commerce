@@ -4,11 +4,11 @@ export class ClickOutside extends React.Component {
   wrapper = React.createRef();
 
   componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   handleClickOutside = (event) => {

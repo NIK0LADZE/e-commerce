@@ -5,7 +5,23 @@ import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 import classes from "./ProductInfo.module.css";
 
 class ProductInfo extends React.Component {
-  state = { id: this.props.product.id, attributesId: "", selectedAttributes: {} };
+  product = this.props.product;
+  brand = this.product.brand;
+  name = this.product.name;
+  attributes = this.product.attributes;
+  prices = this.product.prices;
+  currentCurrency = this.props.currency.selectedCurrency;
+  description = this.product.description;
+
+  state = {
+    id: this.props.product.id,
+    brand: this.brand,
+    name: this.name,
+    attributesId: "",
+    selectedAttributes: {},
+    prices: this.prices,
+    gallery: this.product.gallery,
+  };
 
   onSelectAttribute = (attributeName, attributeValue) => {
     const selectedAttributeObj = { [attributeName]: attributeValue };
@@ -25,18 +41,18 @@ class ProductInfo extends React.Component {
   };
 
   render() {
-    const currentCurrency = this.props.currency.selectedCurrency;
     const objectKeys = Object.keys(this.state.selectedAttributes);
     // Finds selected currency amount
-    const price = this.props.product.prices.find(
-      (priceObj) => priceObj.currency.label === currentCurrency
+    const price = this.prices.find(
+      (priceObj) => priceObj.currency.label === this.currentCurrency
     ).amount;
     const canAddToCart = this.props.product.attributes.length === objectKeys.length;
+
     return (
       <div className={classes.info}>
-        <h1 className={classes.brand}>{this.props.product.brand}</h1>
-        <h2 className={classes.name}>{this.props.product.name}</h2>
-        {this.props.product.attributes.map((attribute) => {
+        <h1 className={classes.brand}>{this.brand}</h1>
+        <h2 className={classes.name}>{this.name}</h2>
+        {this.attributes.map((attribute) => {
           return (
             <div key={attribute.name}>
               <p key={attribute.name} className={classes.attributeName}>
@@ -63,22 +79,24 @@ class ProductInfo extends React.Component {
         <div>
           <p className={classes.attributeName}>price:</p>
           <p className={classes.price}>
-            {currentCurrency && this.props.currency.selectedCurrencySymbol}
-            {currentCurrency && price}
-            {!currentCurrency && <ErrorIcon />}
-            <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
+            {this.currentCurrency && this.props.currency.selectedCurrencySymbol}
+            {this.currentCurrency && price}
+            {!this.currentCurrency && <ErrorIcon />}
+            <span className={classes.errorMessage}>
+              {!this.currentCurrency && this.context.error}
+            </span>
           </p>
         </div>
 
         <div className={classes.buttonContainer}>
-          <Button onClick={this.onAddToCart} disabled={!currentCurrency || !canAddToCart}>
+          <Button onClick={this.onAddToCart} disabled={!this.currentCurrency || !canAddToCart}>
             add to cart
           </Button>
         </div>
         {/* Product Description */}
         <div
           className={classes.description}
-          dangerouslySetInnerHTML={{ __html: this.props.product.description }}
+          dangerouslySetInnerHTML={{ __html: this.description }}
         />
       </div>
     );
