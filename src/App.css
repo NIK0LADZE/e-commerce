@@ -20,6 +20,10 @@ body {
   overflow: overlay;
 }
 
+body.noScroll {
+  overflow: hidden;
+}
+
 header {
   position: fixed;
   top: 0;

@@ -6,6 +6,7 @@ import { withRouter } from "./helpers/withRouter";
 import ProductList from "./Components/Products/ProductList";
 import Layout from "./Components/Layout/Layout";
 import ProductPage from "./Components/ProductPage/ProductPage";
+import CartPage from "./Components/CartPage/CartPage";
 import Loader from "./Components/UI/Loader/Loader";
 import "./App.css";
 
@@ -53,6 +54,7 @@ class App extends React.Component {
                 <Route path="" element={<Navigate to="/" />} />
                 <Route path=":productId" element={<ProductPage />} />
               </Route>
+              <Route path="/cart" element={<CartPage />} />
             </Route>
           </Routes>
         </div>
