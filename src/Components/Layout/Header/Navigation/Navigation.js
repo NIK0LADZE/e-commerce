@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import classes from "./Navigation.module.css";
 
 class Navigation extends React.Component {
@@ -6,7 +7,6 @@ class Navigation extends React.Component {
     super(props);
     this.state = {
       active: true,
-      currentCategory: props.currentCategory,
     };
   }
 
@@ -18,27 +18,23 @@ class Navigation extends React.Component {
     this.setState({ active: true });
   };
 
-  navigate = (currentCategory) => {
-    this.setState({ currentCategory });
-    this.props.navigate(`/${currentCategory}`);
-  };
-
   render() {
     return (
       <nav>
         <ul className={classes.navlist}>
           {this.props.categories.map((category) => {
             return (
-              <li
-                key={category}
-                className={`${classes.navlink} ${
-                  this.state.active && this.state.currentCategory === category ? classes.active : ""
-                }`}
-                onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}
-                onClick={() => this.navigate(category)}
-              >
-                {category}
+              <li key={category} className={classes.navitem}>
+                <NavLink
+                  to={`/${category === "all" ? "" : category}`}
+                  className={({ isActive }) =>
+                    `${classes.navlink} ${this.state.active && isActive && classes.active}`
+                  }
+                  onMouseEnter={this.mouseEnterHandler}
+                  onMouseLeave={this.mouseLeaveHandler}
+                >
+                  {category}
+                </NavLink>
               </li>
             );
           })}

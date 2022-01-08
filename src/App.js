@@ -28,9 +28,10 @@ class App extends React.Component {
     if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
 
     if (this.props.data) {
-      const pathName = this.props.location.pathname.split("/")[1];
-      const categoryName = pathName ? pathName : this.props.data.categories[0].name;
-      this.props.location.state = categoryName;
+      // const pathName = this.props.location.pathname.split("/")[1];
+      // const categoryName = pathName ? pathName : this.props.data.categories[0].name;
+      // this.props.location.state = categoryName;
+      // console.log(pathName);
 
       return (
         <div className="container">
@@ -38,16 +39,10 @@ class App extends React.Component {
             <Route
               path="/"
               element={
-                <Layout
-                  categories={this.props.data.categories.map((category) => {
-                    return category.name;
-                  })}
-                  navigate={this.props.navigate}
-                  currentCategory={categoryName}
-                />
+                <Layout categories={this.props.data.categories.map((category) => category.name)} />
               }
             >
-              <Route path="/" element={<ProductList />} />
+              <Route path="/" element={<ProductList categoryName="all" />} />
               <Route path="/all" element={<Navigate to="/" />} />
               <Route path=":categoryName" element={<ProductList />} />
               <Route path="/products">
