@@ -23,12 +23,12 @@ class ProductInfo extends React.Component {
     gallery: this.product.gallery,
   };
 
-  onSelectAttribute = (attributeName, attributeValue) => {
-    const selectedAttributeObj = { [attributeName]: attributeValue };
+  onSelectAttribute = (attributeName, attributeObj) => {
+    const selectedAttributeObj = { [attributeName]: attributeObj };
     const selectedAttributes = { ...this.state.selectedAttributes, ...selectedAttributeObj };
     let attributesId = "";
     for (const key in selectedAttributes) {
-      attributesId = attributesId + selectedAttributes[key];
+      attributesId = attributesId + selectedAttributes[key].displayValue;
     }
     this.setState({
       attributesId,

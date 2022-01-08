@@ -8,7 +8,7 @@ class AttributeSelector extends React.Component {
     const attributeName = this.props.attributeName;
     const attributeType = this.props.attributeType;
     const swatchBg = attributeType === "swatch" ? item.value : "";
-    const attributeSelected = this.props.state[attributeName] === item.value;
+    const attributeSelected = this.props.state[attributeName]?.displayValue === item.displayValue;
 
     return (
       <li
@@ -17,7 +17,12 @@ class AttributeSelector extends React.Component {
         style={{
           backgroundColor: swatchBg,
         }}
-        onClick={() => this.props.selectAttribute(attributeName, item.value)}
+        onClick={() =>
+          this.props.selectAttribute(attributeName, {
+            value: item.value,
+            displayValue: item.displayValue,
+          })
+        }
       >
         {attributeType === "swatch" && (
           <div

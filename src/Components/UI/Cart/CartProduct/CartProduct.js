@@ -64,7 +64,8 @@ class CartProduct extends React.Component {
           </div>
           <ul className={classes.attributeList}>
             {selectedAttributesArr.map((attributeKey) => {
-              const attributeValue = selectedAttributes[attributeKey];
+              const attributeValue = selectedAttributes[attributeKey].value;
+              const attributeDisplayValue = selectedAttributes[attributeKey].displayValue;
               const swatchBg = attributeKey === "Color" ? attributeValue : "";
               return (
                 <li
@@ -78,7 +79,7 @@ class CartProduct extends React.Component {
                     <span className={classes.attributeValue}>{attributeValue}</span>
                   )}
                   <span className={classes.tooltipText}>
-                    {attributeKey}: {attributeValue}
+                    {attributeKey}: {attributeDisplayValue}
                   </span>
                 </li>
               );
