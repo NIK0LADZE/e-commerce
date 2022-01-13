@@ -1,4 +1,5 @@
 import React from "react";
+import DOMPurify from "dompurify";
 import AttributeSelector from "../../UI/AttributeSelector/AttributeSelector";
 import Button from "../../UI/Button/Button";
 import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
@@ -104,7 +105,7 @@ class ProductInfo extends React.Component {
         {/* Product Description */}
         <div
           className={classes.description}
-          dangerouslySetInnerHTML={{ __html: this.description }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.description) }}
         />
       </div>
     );
