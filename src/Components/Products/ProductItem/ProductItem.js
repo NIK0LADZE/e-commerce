@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CurrencyContext from "../../../store/CurrencyContext";
+import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 import cartIcon from "../../../assets/cart-white.svg";
 import classes from "./ProductItem.module.css";
-import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 
 class ProductItem extends React.Component {
   static contextType = CurrencyContext;
@@ -16,7 +16,7 @@ class ProductItem extends React.Component {
         onMouseEnter={() => this.setState({ hover: true })}
         onMouseLeave={() => this.setState({ hover: false })}
         className={`${classes.productCard} ${
-          product.inStock && !this.context.error
+          !this.context.error
             ? this.state.hover
               ? `shadow ${classes.available}`
               : classes.available
@@ -28,26 +28,31 @@ class ProductItem extends React.Component {
             <React.Fragment>
               <Link to={`/products/${product.id}`}>
                 <img className={classes.productImage} src={product.gallery[0]} alt={product.name} />
+                {!product.inStock && (
+                  <div className={classes.outOfStock}>
+                    <p className={classes.outText}>out of stock</p>
+                  </div>
+                )}
               </Link>
-              <Link to={`/products/${product.id}`}>
-                <div className={classes.cartButton}>
-                  <img className={classes.cartIcon} src={cartIcon} alt={product.name} />
-                </div>
-              </Link>
+              {product.inStock && (
+                <Link to={`/products/${product.id}`}>
+                  <div className={classes.cartButton}>
+                    <img className={classes.cartIcon} src={cartIcon} alt={product.name} />
+                  </div>
+                </Link>
+              )}
             </React.Fragment>
           )}
+
           {this.context.error && (
             <React.Fragment>
               <img className={classes.productImage} src={product.gallery[0]} alt={product.name} />
-              <div className={classes.cartButton}>
-                <img className={classes.cartIcon} src={cartIcon} alt="Cart Icon" />
-              </div>
+              {!product.inStock && (
+                <div className={classes.outOfStock}>
+                  <p className={classes.outText}>out of stock</p>
+                </div>
+              )}
             </React.Fragment>
-          )}
-          {!product.inStock && (
-            <div className={classes.outOfStock}>
-              <p className={classes.outText}>out of stock</p>
-            </div>
           )}
         </div>
         <p className={`${classes.productName} ${!product.inStock ? classes.inactive : ""}`}>
