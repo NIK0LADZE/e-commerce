@@ -10,7 +10,6 @@ class ProductInfo extends React.Component {
   name = this.product.name;
   attributes = this.product.attributes;
   prices = this.product.prices;
-  currentCurrency = this.props.currency.selectedCurrency;
   description = this.product.description;
 
   state = {
@@ -42,9 +41,10 @@ class ProductInfo extends React.Component {
 
   render() {
     const objectKeys = Object.keys(this.state.selectedAttributes);
+    const currentCurrency = this.props.currency.selectedCurrency;
     // Finds selected currency amount
     const price = this.prices.find(
-      (priceObj) => priceObj.currency.label === this.currentCurrency
+      (priceObj) => priceObj.currency.label === currentCurrency
     ).amount;
     const canAddToCart = this.props.product.attributes.length === objectKeys.length;
 
@@ -79,12 +79,10 @@ class ProductInfo extends React.Component {
         <div>
           <p className={classes.attributeName}>price:</p>
           <p className={classes.price}>
-            {this.currentCurrency && this.props.currency.selectedCurrencySymbol}
-            {this.currentCurrency && price}
-            {!this.currentCurrency && <ErrorIcon />}
-            <span className={classes.errorMessage}>
-              {!this.currentCurrency && this.context.error}
-            </span>
+            {currentCurrency && this.props.currency.selectedCurrencySymbol}
+            {currentCurrency && price}
+            {!currentCurrency && <ErrorIcon />}
+            <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
           </p>
         </div>
 
