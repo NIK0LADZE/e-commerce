@@ -51,9 +51,6 @@ class ProductPage extends React.Component {
 
       if (!product) return <h1 className="error-message">Product not found</h1>;
 
-      if (!product.inStock)
-        return <h1 className="error-message">This product is currently not in stock</h1>;
-
       return (
         <div className={classes.container}>
           <ProductGallery product={product} />
