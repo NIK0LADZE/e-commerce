@@ -90,11 +90,14 @@ class ProductInfo extends React.Component {
           <Button
             onClick={this.onAddToCart}
             type={"green"}
-            disabled={!this.currentCurrency || !canAddToCart || !this.product.inStock}
+            disabled={!currentCurrency || !canAddToCart || !this.product.inStock}
           >
             add to cart
           </Button>
         </div>
+        {this.product.inStock && !canAddToCart && (
+          <h1 className={classes.errorMessage}>Select attributes Please.</h1>
+        )}
         {!this.product.inStock && (
           <h1 className={classes.errorMessage}>This product is currently not in stock</h1>
         )}

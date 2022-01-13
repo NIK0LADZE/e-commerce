@@ -64,7 +64,7 @@ export class CartProvider extends React.Component {
 
   calculateTotalAmount = (updatedCart) => {
     let totalAmount = 0;
-    updatedCart.map((product) => {
+    updatedCart.forEach((product) => {
       totalAmount += product.amount;
     });
     return totalAmount;
