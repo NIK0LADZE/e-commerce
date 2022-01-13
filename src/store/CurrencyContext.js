@@ -1,15 +1,6 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { client } from "../ApolloClient/client";
-
-const currencies = gql`
-  query GetCurrenies {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
+import { currenciesQuery } from "../helpers/gqlQueries";
 
 const CurrencyContext = React.createContext();
 
@@ -22,7 +13,7 @@ export class CurrencyProvider extends React.Component {
 
   componentDidMount() {
     client
-      .query({ query: currencies })
+      .query({ query: currenciesQuery })
       .then((result) => {
         if (!localStorage.getItem("currency")) {
           const currency = result.data.currencies[0];

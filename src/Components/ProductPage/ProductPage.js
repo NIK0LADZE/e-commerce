@@ -1,42 +1,13 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { withRouter } from "../../helpers/withRouter";
 import { getProduct } from "../../helpers/getProduct";
+import { productQuery } from "../../helpers/gqlQueries";
 import CurrencyContext from "../../store/CurrencyContext";
 import CartContext from "../../store/CartContext";
 import Loader from "../UI/Loader/Loader";
 import ProductGallery from "./ProductGallery/ProductGallery";
 import ProductInfo from "./ProductInfo/ProductInfo";
 import classes from "./ProductPage.module.css";
-
-const product = gql`
-  query GetProduct($productId: String!) {
-    product(id: $productId) {
-      id
-      brand
-      name
-      inStock
-      gallery
-      description
-      attributes {
-        name
-        type
-        items {
-          id
-          displayValue
-          value
-        }
-      }
-      prices {
-        currency {
-          label
-          symbol
-        }
-        amount
-      }
-    }
-  }
-`;
 
 class ProductPage extends React.Component {
   render() {
@@ -67,4 +38,4 @@ class ProductPage extends React.Component {
   }
 }
 
-export default withRouter(getProduct(ProductPage, product));
+export default withRouter(getProduct(ProductPage, productQuery));

@@ -1,6 +1,6 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { getData } from "./helpers/getData";
+import { categoriesQuery } from "./helpers/gqlQueries";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { withRouter } from "./helpers/withRouter";
 import ProductList from "./Components/Products/ProductList";
@@ -9,14 +9,6 @@ import ProductPage from "./Components/ProductPage/ProductPage";
 import CartPage from "./Components/CartPage/CartPage";
 import Loader from "./Components/UI/Loader/Loader";
 import "./App.css";
-
-const categories = gql`
-  query GetCategories {
-    categories {
-      name
-    }
-  }
-`;
 
 class App extends React.Component {
   render() {
@@ -58,4 +50,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(getData(App, categories));
+export default withRouter(getData(App, categoriesQuery));

@@ -1,30 +1,10 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { withRouter } from "../../helpers/withRouter";
 import { getProducts } from "../../helpers/getProducts";
+import { productsByCategoryQuery } from "../../helpers/gqlQueries";
 import Loader from "../UI/Loader/Loader";
 import ProductItem from "./ProductItem/ProductItem";
 import classes from "./ProductList.module.css";
-
-const products = gql`
-  query GetProductsByCategory($categoryName: String!) {
-    category(input: { title: $categoryName }) {
-      products {
-        id
-        name
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-        gallery
-        inStock
-      }
-    }
-  }
-`;
 
 class ProductList extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -60,4 +40,4 @@ class ProductList extends React.Component {
   }
 }
 
-export default withRouter(getProducts(ProductList, products));
+export default withRouter(getProducts(ProductList, productsByCategoryQuery));

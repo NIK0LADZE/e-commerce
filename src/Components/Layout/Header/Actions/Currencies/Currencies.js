@@ -1,21 +1,12 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { getData } from "../../../../../helpers/getData";
+import { currenciesQuery } from "../../../../../helpers/gqlQueries";
 import { ClickOutside } from "../../../../UI/ClickOutside";
 import CurrencyContext from "../../../../../store/CurrencyContext";
 import CurrencySwitcher from "./CurrencySwitcher/CurrencySwitcher";
 import Arrow from "../../../../../assets/arrow.svg";
 import ErrorIcon from "../../../../UI/ErrorIcon/ErrorIcon";
 import classes from "./Currencies.module.css";
-
-const currencies = gql`
-  query GetCurrenies {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
 
 class Currencies extends React.Component {
   static contextType = CurrencyContext;
@@ -55,4 +46,4 @@ class Currencies extends React.Component {
   }
 }
 
-export default getData(Currencies, currencies);
+export default getData(Currencies, currenciesQuery);
