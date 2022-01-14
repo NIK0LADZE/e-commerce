@@ -25,13 +25,16 @@ class Currencies extends React.Component {
   };
 
   render() {
+    const { show } = this.state;
+    const { selectedCurrencySymbol, error } = this.context;
+
     return (
-      <ClickOutside show={this.state.show} clickHandler={this.clickHandler}>
+      <ClickOutside show={show} clickHandler={this.clickHandler}>
         <div className={classes.container} ref={this.wrapper}>
-          <div onClick={!this.context.error && this.clickHandler}>
+          <div onClick={!error && this.clickHandler}>
             <span className={classes.currencySign}>
-              {this.context.error && <ErrorIcon />}
-              {this.context.selectedCurrencySymbol}
+              {error && <ErrorIcon />}
+              {selectedCurrencySymbol}
               <img
                 className={`${classes.arrow} ${this.state.show ? classes.arrowUp : ""}`}
                 src={Arrow}
@@ -39,7 +42,7 @@ class Currencies extends React.Component {
               />
             </span>
           </div>
-          {this.state.show && <CurrencySwitcher {...this.props} onSelect={this.clickHandler} />}
+          {show && <CurrencySwitcher {...this.props} onSelect={this.clickHandler} />}
         </div>
       </ClickOutside>
     );

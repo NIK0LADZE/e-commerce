@@ -6,21 +6,9 @@ import ErrorIcon from "../../UI/ErrorIcon/ErrorIcon";
 import classes from "./ProductInfo.module.css";
 
 class ProductInfo extends React.Component {
-  product = this.props.product;
-  brand = this.product.brand;
-  name = this.product.name;
-  attributes = this.product.attributes;
-  prices = this.product.prices;
-  description = this.product.description;
-
   state = {
-    id: this.props.product.id,
-    brand: this.brand,
-    name: this.name,
     attributesId: "",
     selectedAttributes: {},
-    prices: this.prices,
-    gallery: this.product.gallery,
   };
 
   onSelectAttribute = (attributeName, attributeObj) => {
@@ -37,38 +25,44 @@ class ProductInfo extends React.Component {
   };
 
   onAddToCart = () => {
-    this.props.cart.addToCart(this.state);
+    this.props.cart.addToCart({ ...this.props.product, ...this.state });
   };
 
   render() {
+    const { selectedAttributes } = this.state;
+    const { currency, product } = this.props;
+    const { brand, name, attributes, prices, description, inStock } = product;
+    const { selectedCurrency, selectedCurrencySymbol, error } = currency;
     const objectKeys = Object.keys(this.state.selectedAttributes);
-    const currentCurrency = this.props.currency.selectedCurrency;
+    const canAddToCart = attributes.length === objectKeys.length;
     // Finds selected currency amount
-    const price = this.prices.find(
-      (priceObj) => priceObj.currency.label === currentCurrency
+    const selectedCurrencyPrice = prices.find(
+      (priceObj) => priceObj.currency.label === selectedCurrency
     ).amount;
-    const canAddToCart = this.props.product.attributes.length === objectKeys.length;
 
     return (
       <div className={classes.info}>
-        <h1 className={classes.brand}>{this.brand}</h1>
-        <h2 className={classes.name}>{this.name}</h2>
-        {this.attributes.map((attribute) => {
+        <h1 className={classes.brand}>{brand}</h1>
+        <h2 className={classes.name}>{name}</h2>
+
+        {attributes.map((attribute) => {
+          const { name, type, items } = attribute;
+
           return (
-            <div key={attribute.name}>
-              <p key={attribute.name} className={classes.attributeName}>
-                {`${attribute.name}:`}
+            <div key={name}>
+              <p key={name} className={classes.attributeName}>
+                {`${name}:`}
               </p>
               <ul className={classes.attributeList}>
-                {attribute.items.map((item) => {
+                {items.map((item) => {
                   return (
                     <AttributeSelector
                       key={item.id}
                       selectAttribute={this.onSelectAttribute}
                       item={item}
-                      attributeName={attribute.name}
-                      attributeType={attribute.type}
-                      state={this.state.selectedAttributes}
+                      attributeName={name}
+                      attributeType={type}
+                      state={selectedAttributes}
                     />
                   );
                 })}
@@ -80,10 +74,10 @@ class ProductInfo extends React.Component {
         <div>
           <p className={classes.attributeName}>price:</p>
           <p className={classes.price}>
-            {currentCurrency && this.props.currency.selectedCurrencySymbol}
-            {currentCurrency && price}
-            {!currentCurrency && <ErrorIcon />}
-            <span className={classes.errorMessage}>{!currentCurrency && this.context.error}</span>
+            {selectedCurrency && selectedCurrencySymbol}
+            {selectedCurrency && selectedCurrencyPrice}
+            {!selectedCurrency && <ErrorIcon />}
+            <span className={classes.errorMessage}>{!selectedCurrency && error}</span>
           </p>
         </div>
 
@@ -91,21 +85,21 @@ class ProductInfo extends React.Component {
           <Button
             onClick={this.onAddToCart}
             type={"green"}
-            disabled={!currentCurrency || !canAddToCart || !this.product.inStock}
+            disabled={error || !canAddToCart || !inStock}
           >
             add to cart
           </Button>
         </div>
-        {this.product.inStock && !canAddToCart && (
+        {inStock && !canAddToCart && (
           <h1 className={classes.errorMessage}>Select attributes Please.</h1>
         )}
-        {!this.product.inStock && (
+        {!inStock && (
           <h1 className={classes.errorMessage}>This product is currently not in stock</h1>
         )}
         {/* Product Description */}
         <div
           className={classes.description}
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.description) }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
         />
       </div>
     );

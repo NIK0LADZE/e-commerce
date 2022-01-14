@@ -11,14 +11,16 @@ import classes from "./ProductPage.module.css";
 
 class ProductPage extends React.Component {
   render() {
-    if (this.props.loading) return <Loader />;
+    const { data, loading, error } = this.props;
 
-    if (this.props.error) {
-      return <h1 className="error-message">{this.props.error.message}</h1>;
+    if (loading) return <Loader />;
+
+    if (error) {
+      return <h1 className="error-message">{error.message}</h1>;
     }
 
-    if (this.props.data) {
-      const product = this.props.data.product;
+    if (data) {
+      const { product } = data;
 
       if (!product) return <h1 className="error-message">Product not found</h1>;
 

@@ -16,7 +16,12 @@ class MiniCart extends React.Component {
   state = { isOpened: false, totalAmountChanged: false };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.cart.totalAmount !== this.props.cart.totalAmount) {
+    const { totalAmount: nextTotalAmount } = nextProps.cart;
+    const { totalAmount: prevTotalAmount } = this.props.cart;
+    const { totalAmountChanged: nextAmountState } = nextState;
+    const { totalAmountChanged: prevAmountState } = this.state;
+
+    if (nextTotalAmount !== prevTotalAmount) {
       this.setState({ totalAmountChanged: true });
 
       const timer = setTimeout(() => {
@@ -25,10 +30,7 @@ class MiniCart extends React.Component {
 
       return () => clearTimeout(timer);
     }
-    if (
-      nextProps.cart.totalAmount !== this.props.cart.totalAmount &&
-      nextState.totalAmountChanged === this.state.totalAmountChanged
-    ) {
+    if (nextTotalAmount !== prevTotalAmount && nextAmountState === prevAmountState) {
       return false;
     }
     return true;
@@ -44,36 +46,36 @@ class MiniCart extends React.Component {
 
   render() {
     const portalTarget = document.getElementById("overlays");
-    const totalAmount = this.props.cart.totalAmount;
+    const { isOpened, totalAmountChanged } = this.state;
+    const { cart } = this.props;
+    const { totalAmount } = cart;
 
-    if (this.state.isOpened) {
+    if (isOpened) {
       document.body.classList.add("noScroll");
     } else {
       document.body.classList.remove("noScroll");
     }
 
     return (
-      <ClickOutside show={this.state.isOpened} clickHandler={this.onClick}>
-        {this.state.isOpened && reactDom.createPortal(<Overlay />, portalTarget)}
+      <ClickOutside show={isOpened} clickHandler={this.onClick}>
+        {isOpened && reactDom.createPortal(<Overlay />, portalTarget)}
         <div className={classes.container}>
           <div onClick={this.onClick}>
             <img src={cartIcon} className={classes.cartIcon} alt="cart" />
             {totalAmount > 0 && (
-              <div
-                className={`${classes.circle} ${this.state.totalAmountChanged ? classes.pop : ""}`}
-              >
+              <div className={`${classes.circle} ${totalAmountChanged ? classes.pop : ""}`}>
                 <span>{totalAmount}</span>
               </div>
             )}
           </div>
-          {this.state.isOpened && (
+          {isOpened && (
             <CurrencyContext.Consumer>
               {(currency) => (
                 <Cart
                   type="miniCart"
-                  cart={this.props.cart}
+                  cart={cart}
                   currency={currency}
-                  isOpened={this.state.isOpened}
+                  isOpened={isOpened}
                   close={this.onClose}
                 />
               )}

@@ -16,15 +16,15 @@ class ProductList extends React.Component {
   }
 
   render() {
-    if (this.props.loading) return <Loader />;
+    const { data, loading, error, categoryName } = this.props;
 
-    if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
+    if (loading) return <Loader />;
 
-    if (this.props.data) {
-      if (!this.props.data.category) return <h1 className="error-message">Category not found</h1>;
+    if (error) return <h1 className="error-message">{error.message}</h1>;
 
-      let categoryName = this.props.categoryName;
-      let products = this.props.data.category.products;
+    if (data) {
+      if (!data.category) return <h1 className="error-message">Category not found</h1>;
+      const { products } = data.category;
 
       return (
         <div>

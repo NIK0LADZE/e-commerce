@@ -1,6 +1,6 @@
 import React from "react";
-import classes from "./CurrencySwitcher.module.css";
 import CurrencyContext from "../../../../../../store/CurrencyContext";
+import classes from "./CurrencySwitcher.module.css";
 
 class CurrencySwitcher extends React.Component {
   static contextType = CurrencyContext;
@@ -11,26 +11,30 @@ class CurrencySwitcher extends React.Component {
   }
 
   render() {
-    if (this.props.loading) return null;
+    const { data, loading, error } = this.props;
 
-    if (this.props.error)
+    if (loading) return null;
+
+    if (error)
       return (
         <div className={`${classes.container} shadow`}>
-          <p className={classes.errorMessage}>{this.props.error.message}</p>
+          <p className={classes.errorMessage}>{error.message}</p>
         </div>
       );
 
-    if (this.props.data) {
+    if (data) {
       return (
         <ul className={`${classes.container} shadow`}>
-          {this.props.data.currencies.map((currency) => {
+          {data.currencies.map((currency) => {
+            const { label, symbol } = currency;
+
             return (
               <li
-                key={currency.label}
+                key={label}
                 className={classes.currencyItem}
                 onClick={() => this.onSelect(currency)}
               >
-                {currency.symbol} {currency.label}
+                {symbol} {label}
               </li>
             );
           })}

@@ -15,11 +15,13 @@ class App extends React.Component {
     // I pass categories through here, because if categories fetching is in process,
     // it would be logical to put whole application on hold and render Loader component until it finishes.
     // Rendering Loader component only at Navigation would be ugly, in my opinion.
-    if (this.props.loading) return <Loader />;
+    const { data, loading, error } = this.props;
 
-    if (this.props.error) return <h1 className="error-message">{this.props.error.message}</h1>;
+    if (loading) return <Loader />;
 
-    if (this.props.data) {
+    if (error) return <h1 className="error-message">{error.message}</h1>;
+
+    if (data) {
       // const pathName = this.props.location.pathname.split("/")[1];
       // const categoryName = pathName ? pathName : this.props.data.categories[0].name;
       // this.props.location.state = categoryName;

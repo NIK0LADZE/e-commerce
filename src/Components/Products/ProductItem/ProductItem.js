@@ -10,44 +10,45 @@ class ProductItem extends React.Component {
   state = { hover: false };
 
   render() {
-    let product = this.props.product;
+    const { hover } = this.state;
+    const { product } = this.props;
+    const { selectedCurrency, selectedCurrencySymbol, error } = this.context;
+    const { id, name, prices, gallery, inStock } = product;
+    const productCardClasses = `${classes.productCard} ${
+      !error ? (hover ? `shadow ${classes.available}` : classes.available) : ""
+    }`;
+
     return (
       <li
         onMouseEnter={() => this.setState({ hover: true })}
         onMouseLeave={() => this.setState({ hover: false })}
-        className={`${classes.productCard} ${
-          !this.context.error
-            ? this.state.hover
-              ? `shadow ${classes.available}`
-              : classes.available
-            : ""
-        }`}
+        className={productCardClasses}
       >
         <div className={classes.photoContainer}>
-          {!this.context.error && (
+          {!error && (
             <React.Fragment>
-              <Link to={`/products/${product.id}`}>
-                <img className={classes.productImage} src={product.gallery[0]} alt={product.name} />
-                {!product.inStock && (
+              <Link to={`/products/${id}`}>
+                <img className={classes.productImage} src={gallery[0]} alt={name} />
+                {!inStock && (
                   <div className={classes.outOfStock}>
                     <p className={classes.outText}>out of stock</p>
                   </div>
                 )}
               </Link>
-              {product.inStock && (
-                <Link to={`/products/${product.id}`}>
+              {inStock && (
+                <Link to={`/products/${id}`}>
                   <div className={classes.cartButton}>
-                    <img className={classes.cartIcon} src={cartIcon} alt={product.name} />
+                    <img className={classes.cartIcon} src={cartIcon} alt={name} />
                   </div>
                 </Link>
               )}
             </React.Fragment>
           )}
 
-          {this.context.error && (
+          {error && (
             <React.Fragment>
-              <img className={classes.productImage} src={product.gallery[0]} alt={product.name} />
-              {!product.inStock && (
+              <img className={classes.productImage} src={gallery[0]} alt={name} />
+              {!inStock && (
                 <div className={classes.outOfStock}>
                   <p className={classes.outText}>out of stock</p>
                 </div>
@@ -55,19 +56,15 @@ class ProductItem extends React.Component {
             </React.Fragment>
           )}
         </div>
-        <p className={`${classes.productName} ${!product.inStock ? classes.inactive : ""}`}>
-          {product.name}
-        </p>
-        <p className={`${classes.price} ${!product.inStock ? classes.inactive : ""}`}>
+        <p className={`${classes.productName} ${!inStock ? classes.inactive : ""}`}>{name}</p>
+        <p className={`${classes.price} ${!inStock ? classes.inactive : ""}`}>
           {/* Error message */}
-          {this.context.error && <ErrorIcon />}
-          {this.context.error && <span className={classes.errorMessage}>{this.context.error}</span>}
-          {!this.context.error && this.context.selectedCurrencySymbol}
+          {error && <ErrorIcon />}
+          {error && <span className={classes.errorMessage}>{error}</span>}
+          {!error && selectedCurrencySymbol}
           {/* Finds selected currency amount */}
-          {!this.context.error &&
-            product.prices.find(
-              (currencyObj) => currencyObj.currency.label === this.context.selectedCurrency
-            ).amount}
+          {!error &&
+            prices.find((currencyObj) => currencyObj.currency.label === selectedCurrency).amount}
         </p>
       </li>
     );

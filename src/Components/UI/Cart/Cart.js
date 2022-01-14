@@ -5,32 +5,26 @@ import classes from "./Cart.module.css";
 import Button from "../Button/Button";
 
 class Cart extends React.Component {
-  state = { totalPrice: 0 };
-  products = this.props.cart.products;
-  currentCurrency = this.props.currency.selectedCurrency;
-  symbol = this.props.currency.selectedCurrencySymbol;
-  isOpened = this.props.isOpened;
-
-  componentDidMount() {
-    this.products = this.props.cart.products;
-    this.currentCurrency = this.props.currency.selectedCurrency;
-    this.symbol = this.props.currency.selectedCurrencySymbol;
-    const totalPrice = this.calculateTotalPrice(this.products, this.currentCurrency);
-    this.setState({ totalPrice });
+  constructor(props) {
+    super(props);
+    this.products = props.cart.products;
+    this.selectedCurrency = this.props.currency.selectedCurrency;
+    this.totalPrice = this.calculateTotalPrice(this.products, this.selectedCurrency);
+    this.state = { totalPrice: this.totalPrice };
   }
 
   shouldComponentUpdate(nextProps) {
-    this.products = this.props.cart.products;
-    this.currentCurrency = nextProps.currency.selectedCurrency;
-    this.symbol = this.props.currency.selectedCurrencySymbol;
+    const { currency, cart } = nextProps;
+    const { products, totalAmount: nextTotalAmount } = cart;
+    const { selectedCurrency } = currency;
 
-    const totalPrice = this.calculateTotalPrice(this.products, this.currentCurrency);
+    const totalPrice = this.calculateTotalPrice(products, selectedCurrency);
 
     if (this.state.totalPrice !== totalPrice) {
       this.setState({ totalPrice });
     }
 
-    if (nextProps.cart.totalAmount !== this.props.cart.totalAmount) {
+    if (nextTotalAmount !== this.props.cart.totalAmount) {
       this.setState({ totalAmountChanged: true });
 
       const timer = setTimeout(() => {
@@ -62,28 +56,24 @@ class Cart extends React.Component {
   };
 
   render() {
-    const totalAmount = this.props.cart.totalAmount;
-    const type = this.props.type;
+    const { totalPrice } = this.state;
+    const { currency, cart, type } = this.props;
+    const { selectedCurrency, selectedCurrencySymbol } = currency;
+    const { products, totalAmount } = cart;
     const miniCart = type === "miniCart" ? true : false;
     const containerClass = `${classes.container} ${miniCart ? classes.miniCart : ""}`;
 
-    if (this.state.isOpened) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    const productList = products.map((product) => {
+      const { id, attributesId, prices } = product;
+      const price = prices.find((priceObj) => priceObj.currency.label === selectedCurrency).amount;
 
-    const productList = this.products.map((product) => {
-      const price = product.prices.find(
-        (priceObj) => priceObj.currency.label === this.currentCurrency
-      ).amount;
       return (
         <CartProduct
-          key={`${product.id}-${product.attributesId}`}
+          key={`${id}-${attributesId}`}
           type={miniCart}
           product={product}
-          currency={this.props.currency}
-          cart={this.props.cart}
+          currency={currency}
+          cart={cart}
           price={price}
         />
       );
@@ -108,8 +98,8 @@ class Cart extends React.Component {
               <div className={classes.totalPrice}>
                 <p>Total</p>
                 <p>
-                  {this.symbol}
-                  {this.state.totalPrice.toFixed(2)}
+                  {selectedCurrencySymbol}
+                  {totalPrice.toFixed(2)}
                 </p>
               </div>
             )}

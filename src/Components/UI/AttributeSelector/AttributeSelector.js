@@ -4,23 +4,22 @@ import classes from "./AttributeSelector.module.css";
 
 class AttributeSelector extends React.Component {
   render() {
-    const item = this.props.item;
-    const attributeName = this.props.attributeName;
-    const attributeType = this.props.attributeType;
-    const swatchBg = attributeType === "swatch" ? item.value : "";
-    const attributeSelected = this.props.state[attributeName]?.displayValue === item.displayValue;
+    const { item, attributeName, attributeType, state } = this.props;
+    const { id, value, displayValue } = item;
+    const swatchBg = attributeType === "swatch" ? value : "";
+    const attributeSelected = state[attributeName]?.displayValue === displayValue;
 
     return (
       <li
-        key={item.id}
+        key={id}
         className={classes.attributeItem}
         style={{
           backgroundColor: swatchBg,
         }}
         onClick={() =>
           this.props.selectAttribute(attributeName, {
-            value: item.value,
-            displayValue: item.displayValue,
+            value,
+            displayValue,
           })
         }
       >
@@ -37,7 +36,7 @@ class AttributeSelector extends React.Component {
         )}
         {attributeType !== "swatch" && (
           <p className={`${classes.itemValue} ${attributeSelected ? classes.selected : ""}`}>
-            {item.value}
+            {value}
           </p>
         )}
       </li>
